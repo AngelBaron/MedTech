@@ -13,35 +13,35 @@
 
 Sigue estos pasos para poner en marcha el proyecto localmente:
 
-\`\`\`bash
-git clone https://github.com/tuusuario/medtech.git
-cd medtech
-cp .env.example .env
-composer install
-php artisan key:generate
-\`\`\`
+
+1. bash git clone https://github.com/tuusuario/medtech.git
+2. cd medtech
+3. cp .env.example .env
+4. composer install
+5. npm install
+6. php artisan key:generate
+
 
 Configura tu base de datos en el archivo `.env`:
 
-\`\`\`env
-DB_DATABASE=medtech
-DB_USERNAME=root
-DB_PASSWORD=tu_contraseña
-\`\`\`
+- env
+- DB_DATABASE=medtech
+- DB_USERNAME=root
+- DB_PASSWORD=tu_contraseña
+
 
 Luego, crea la base de datos (si no existe) y corre las migraciones:
 
-\`\`\`bash
-php artisan migrate
-\`\`\`
+- bash php artisan migrate
+
 
 ## ▶️ Uso
 
 Para levantar el servidor local de desarrollo:
 
-\`\`\`bash
-php artisan serve
-\`\`\`
+- bash php artisan serve
+- npm run dev
+
 
 Y accede a: [http://localhost:8000](http://localhost:8000)
 
