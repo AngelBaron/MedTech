@@ -15,7 +15,7 @@ Sigue estos pasos para poner en marcha el proyecto localmente:
 
 
 1. bash git clone https://github.com/tuusuario/medtech.git
-2. cd medtech
+2. cd medtech  si ya estas en la carpera desde tu terminal no es necesario este comando
 3. cp .env.example .env
 4. composer install
 5. npm install
