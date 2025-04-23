@@ -32,14 +32,14 @@ Configura tu base de datos en el archivo `.env`:
 
 Luego, crea la base de datos (si no existe) y corre las migraciones:
 
-- bash php artisan migrate
+- php artisan migrate
 
 
 ## ▶️ Uso
 
 Para levantar el servidor local de desarrollo:
 
-- bash php artisan serve
+- php artisan serve
 - npm run dev
 
 
