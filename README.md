@@ -15,7 +15,7 @@ Sigue estos pasos para poner en marcha el proyecto localmente:
 
 
 1. bash git clone https://github.com/tuusuario/medtech.git
-2. cd medtech
+2. cd medtech  si ya estas en la carpera desde tu terminal no es necesario este comando
 3. cp .env.example .env
 4. composer install
 5. npm install
@@ -32,14 +32,14 @@ Configura tu base de datos en el archivo `.env`:
 
 Luego, crea la base de datos (si no existe) y corre las migraciones:
 
-- bash php artisan migrate
+- php artisan migrate
 
 
 ## ▶️ Uso
 
 Para levantar el servidor local de desarrollo:
 
-- bash php artisan serve
+- php artisan serve
 - npm run dev
 
 
