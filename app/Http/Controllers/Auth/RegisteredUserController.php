@@ -51,6 +51,7 @@ class RegisteredUserController extends Controller
             
         } elseif($user->role == 'Medico') {
             
+            
         } elseif($user->role == 'Administrador') {
             Administrador::create([
                 'user_id' => $user->id,
