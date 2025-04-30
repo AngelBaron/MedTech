@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\Administrador;
 use App\Models\User;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
@@ -33,13 +34,28 @@ class RegisteredUserController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
+            'password_confirmation' => ['required', 'string', Rules\Password::defaults()],
+            'role' => ['required', 'string', 'in:Administrador,Medico,Paciente'],
+
         ]);
 
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
+            'role' => $request->role,
+            
         ]);
+
+        if($user->role == 'Paciente') {
+            
+        } elseif($user->role == 'Medico') {
+            
+        } elseif($user->role == 'Administrador') {
+            Administrador::create([
+                'user_id' => $user->id,
+            ]);
+        }
 
         event(new Registered($user));
 
