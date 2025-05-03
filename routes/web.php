@@ -23,6 +23,8 @@ Route::middleware('auth')->group(function () {
 Route::middleware('auth','role:Administrador')->group(function () {
     Route::get('/registrarMedico', [AdministradorController::class,'registrarMedico'])->name('registrarMedico');
     Route::post('/registrarMedico', [AdministradorController::class,'crearMedico'])->name('crearMedico');
+    Route::get('/registrarEnfermera', [AdministradorController::class,'registrarEnfermera'])->name('registrarEnfermera');
+    Route::post('/registrarEnfermera', [AdministradorController::class,'crearEnfermera'])->name('crearEnfermera');
 });
 
 
