@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AdministradorController;
+use App\Http\Controllers\PacienteController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -27,5 +28,9 @@ Route::middleware('auth','role:Administrador')->group(function () {
     Route::post('/registrarEnfermera', [AdministradorController::class,'crearEnfermera'])->name('crearEnfermera');
 });
 
+
+Route::middleware('auth','role:Paciente')->group(function () {
+    Route::get('/agendarCita',[PacienteController::class,'mostrarAgendarCita'])->name('agendarCita');
+});
 
 require __DIR__.'/auth.php';

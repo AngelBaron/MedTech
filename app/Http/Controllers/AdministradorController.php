@@ -88,16 +88,9 @@ class AdministradorController extends Controller
             'dias.*' => 'in:Lunes,Martes,Miercoles,Jueves,Viernes,Sabado,Domingo',
             'turno' => 'required|array|min:1|max:2',
             'turno.*' => 'in:1,2,4',
-
         ]);
 
-
-
-
-
-
         // Crear el user en la base de datos
-
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
