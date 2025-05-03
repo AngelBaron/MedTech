@@ -6,8 +6,11 @@ use App\Mail\NotificacionEnfermera;
 use App\Mail\NotificacionEnfermera_Admin;
 use App\Mail\NotificacionMedico;
 use App\Mail\NotificacionMedico_Admin;
+use App\Models\Dia;
 use App\Models\Enfermera;
 use App\Models\Medico;
+use App\Models\Medico_dia;
+use App\Models\Medico_horario;
 use App\Models\User;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
@@ -26,14 +29,15 @@ class AdministradorController extends Controller
     }
 
 
-    public function crearEnfermera(Request $request){
+    public function crearEnfermera(Request $request)
+    {
         $pass = $this->generarContrasenaAleatoria();
 
         // Validar los datos del formulario
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
-            
+
         ]);
 
         $user = User::create([
@@ -45,14 +49,13 @@ class AdministradorController extends Controller
 
         Enfermera::create([
             'user_id' => $user->id,
-            
         ]);
 
         Mail::to($user->email)->send(new NotificacionEnfermera(
             $user->name,
             $pass
         ));
-        
+
 
         $admins = User::where('role', 'Administrador')->get();
 
@@ -67,15 +70,13 @@ class AdministradorController extends Controller
 
         // Redirigir o mostrar un mensaje de éxito
         return redirect()->route('registrarEnfermera')->with('success', 'Enfermera registrada exitosamente.');
-
-
     }
 
     public function crearMedico(Request $request)
     {
         $pass = $this->generarContrasenaAleatoria();
 
-        
+
 
         // Validar los datos del formulario
         $request->validate([
@@ -83,7 +84,16 @@ class AdministradorController extends Controller
             'email' => 'required|string|email|max:255|unique:users',
             'especialidad' => 'required|string|max:255',
             'cedula' => 'required|string|max:255|unique:medicos',
+            'dias' => 'required|array|min:1|max:7',
+            'dias.*' => 'in:Lunes,Martes,Miercoles,Jueves,Viernes,Sabado,Domingo',
+            'turno' => 'required|array|min:1|max:2',
+            'turno.*' => 'in:1,2,4',
+
         ]);
+
+
+
+
 
 
         // Crear el user en la base de datos
@@ -97,27 +107,61 @@ class AdministradorController extends Controller
         ]);
 
         // Crear el médico asociado al usuario
-        Medico::create([
+        $medico = Medico::create([
             'cedula' => $request->cedula,
             'especialidad' => $request->especialidad,
             'user_id' => $user->id,
         ]);
 
+        //suma de horarios
+        $suma_horario = array_sum($request->turno);
+
+
+
+        // Crear el horario asociado al medico
+
+        Medico_horario::create([
+            'medico_id' => $medico->id,
+            'horario_inicio' => $suma_horario,
+            'horario_fin' => $suma_horario,
+
+
+        ]);
+
+        foreach ($request->dias as $dia) {
+            // Crear el dia asociado al medico
+            Medico_dia::create([
+                'medico_id' => $medico->id,
+                'dia_id' => Dia::where('nombre', $dia)->first()->id,
+            ]);
+        }
+
+
+
+
         // Enviar un correo electrónico al médico con su contraseña
 
         Mail::to($user->email)->send(new NotificacionMedico(
             $user->name,
-            $pass
+            $pass,
+            $request->dias,
+            Medico_horario::where('medico_id', $medico->id)->first()->horario_inicio,
+            Medico_horario::where('medico_id', $medico->id)->first()->horario_fin,
+
         ));
 
         $admins = User::where('role', 'Administrador')->get();
+
 
         foreach ($admins as $admin) {
             Mail::to($admin->email)->send(new NotificacionMedico_Admin(
                 $user->name,
                 $request->cedula,
                 $request->especialidad,
-                $user->email
+                $user->email,
+                $request->dias,
+                Medico_horario::where('medico_id', $medico->id)->first()->horario_inicio,
+                Medico_horario::where('medico_id', $medico->id)->first()->horario_fin,
             ));
         }
 

@@ -15,14 +15,21 @@ class NotificacionMedico extends Mailable
 
     public $nombre;
     public $password;
+    public $dias;
+    public $horario_inicio;
+    public $horario_fin;
+
 
     /**
      * Create a new message instance.
      */
-    public function __construct($nombre, $password)
+    public function __construct($nombre, $password,$dias,$horario_inicio,$horario_fin)
     {
         $this->nombre = $nombre;
         $this->password = $password;
+        $this->dias = $dias;
+        $this->horario_inicio = $horario_inicio;
+        $this->horario_fin = $horario_fin;
     }
 
     /**

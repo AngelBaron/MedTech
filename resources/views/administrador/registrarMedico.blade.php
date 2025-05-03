@@ -52,6 +52,60 @@
                     <x-input-error :messages="$errors->get('cedula')" class="mt-2" />
                 </div>
 
+                <h3 class="mb-4 mt-4 font-semibold text-gray-900 dark:text-white"">Dias a trabajar</h3>
+                <div class="flex items-center me-4">
+                    <x-check-box id="lunes" name="dias[]" value="Lunes" color="red"> Lunes </x-check-box>
+                    <x-check-box id="martes" name="dias[]" value="Martes" color="blue">Martes </x-check-box>
+                    <x-check-box id="miercoles" name="dias[]" value="Miercoles" color="green">Miércoles </x-check-box>
+                    <x-check-box id="jueves" name="dias[]" value="Jueves" color="teal">Jueves </x-check-box>
+                    <x-check-box id="viernes" name="dias[]" value="Viernes" color="purple">Viernes </x-check-box>
+                    <x-check-box id="sabado" name="dias[]" value="Sabado" color="gray">Sábado </x-check-box>
+                    <x-check-box id="domingo" name="dias[]" value="Domingo" color="indigo">Domingo </x-check-box>
+                </div>
+
+
+
+                <h3 class="mb-4 mt-4 font-semibold text-gray-900 dark:text-white">Disponibilidad</h3>
+                <ul
+                    class="max-w-96 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+                    <li class="w-full border-b border-gray-200 rounded-t-lg dark:border-gray-600">
+                        <div class="flex items-center ps-3">
+                            <input id="Matutino" type="checkbox" value="1" onclick="selectOnly2(event)"
+                                name="turno[]"
+                                class="opciones-check w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
+                            <label for="Matutino"
+                                class="w-full py-3 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Matutino
+                                (08:00-16:00)</label>
+                        </div>
+                    </li>
+                    <li class="w-full border-b border-gray-200 rounded-t-lg dark:border-gray-600">
+                        <div class="flex items-center ps-3">
+                            <input id="Vespertino" type="checkbox" value="2" onclick="selectOnly2(event)"
+                                name="turno[]"
+                                class="opciones-check w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
+                            <label for="Vespertino"
+                                class="w-full py-3 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Vespertino
+                                (16:00-24:00)</label>
+                        </div>
+                    </li>
+                    <li class="w-full border-b border-gray-200 rounded-t-lg dark:border-gray-600">
+                        <div class="flex items-center ps-3">
+                            <input id="Nocturno" type="checkbox" value="4" onclick="selectOnly2(event)"
+                                name="turno[]"
+                                class="opciones-check w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
+                            <label for="Nocturno"
+                                class="w-full py-3 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Nocturno
+                                (24:00-8:00)</label>
+                        </div>
+                    </li>
+                    <x-input-error :messages="$errors->get('turno')" class="mt-2" />
+                </ul>
+
+
+
+
+
+
                 <div class="flex items-center justify-center mt-4">
                     <x-primary-button class="ms-4">
                         {{ __('Registrar') }}

@@ -17,16 +17,23 @@ class NotificacionMedico_Admin extends Mailable
     public $cedula;
     public $especialidad;
     public $email;
+    public $dias;
+    public $horario_inicio;
+    public $horario_fin;
 
     /**
      * Create a new message instance.
      */
-    public function __construct($nombre, $cedula, $especialidad, $email)
+    public function __construct($nombre, $cedula, $especialidad, $email,$dias,$horario_inicio,$horario_fin)
     {
         $this->nombre = $nombre;
         $this->cedula = $cedula;
         $this->especialidad = $especialidad;
         $this->email = $email;
+        $this->dias = $dias;
+        $this->horario_inicio = $horario_inicio;
+        $this->horario_fin = $horario_fin;
+    
     }
     
     /**
