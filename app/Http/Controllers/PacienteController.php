@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Mail\RegistroPaciente;
+use App\Models\Especialidad;
 use App\Models\Medico;
+use App\Models\Medico_especialidad;
 use App\Models\Paciente;
 use App\Models\User;
 use Illuminate\Auth\Events\Registered;
@@ -22,14 +24,22 @@ class PacienteController extends Controller
 
     public function mostrarAgendarCita()
     {
-        $medicos = Medico::with(['Medico_dias','Medico_horarios'])->get();
+        $medicos = Medico::with(['Medico_dias', 'Medico_horarios', 'Medico_especialidads'])->get();
+        $especialidades = Especialidad::all();
 
-        return view('paciente.agendarCita', compact('medicos'));
+        return view('paciente.agendarCita', compact('medicos', 'especialidades'));
+    }
+
+    public function porEspecialidad($id)
+    {
+        
+        $medicos = Medico_especialidad::with('medico.user')->where('especialidad_id',$id)->get();
+        return response()->json($medicos);
     }
 
     public function store(Request $request)
     {
-        
+
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
@@ -38,7 +48,7 @@ class PacienteController extends Controller
         ]);
 
 
-        
+
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
@@ -47,9 +57,9 @@ class PacienteController extends Controller
         ]);
 
         Paciente::create([
-            'user_id' => $user -> id,
+            'user_id' => $user->id,
         ]);
-        
+
         Mail::to($request->email)->send(new RegistroPaciente(
             $request->nombre,
             $request->email,
@@ -58,10 +68,9 @@ class PacienteController extends Controller
 
         event(new Registered($user));
 
-        
+
         Auth::login($user);
 
         return redirect(route('dashboard', absolute: false));
-
     }
 }

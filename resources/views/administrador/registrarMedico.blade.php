@@ -49,6 +49,8 @@
                     <x-input-error :messages="$errors->get('especialidad')" class="mt-2" />
                 </div>
 
+                <a href="{{ route('registrarEspecialidad') }}" class="ml-2 text-blue-500 underline ">+ Nueva especialidad</a>
+
 
                 <div class="mt-4">
                     <x-input-label for="cedula" :value="__('Cedula Profesional')" />

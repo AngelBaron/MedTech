@@ -27,13 +27,33 @@ function selectOnly2(event) {
 }
 
 
-window.setEditModalData = function(id, name) {
+window.setEditModalData = function (id, name) {
     document.getElementById('id').value = id;
     document.getElementById('na').value = name;
 };
 
-window.setDeleteRoute = function(id,url) {
+window.setDeleteRoute = function (id, url) {
     const form = document.getElementById('delete-form');
     const urlTemplate = url;
     form.action = urlTemplate.replace('__id__', id);
+};
+
+window.seleccionEspecialidad = function () {
+    let especialidad = document.getElementById('especialidad').value;
+
+    if (especialidad != 0) {
+        fetch('/medicos-por-especialidad/' + especialidad)
+            .then(response => response.json())
+            .then(data => {
+                let medicosSelect = document.getElementById('medicos');
+                medicosSelect.innerHTML = '<option disabled selected>Por favor elige un médico</option>';
+                data.forEach(medico => {
+                    if(medico.medico){
+                        medicosSelect.innerHTML += `<option value="${medico.medico.id}">${medico.medico.user.name}</option>`;
+                    }
+                    
+                });
+                document.getElementById('medicosDiv').style.display = 'block';
+            });
+    }
 };

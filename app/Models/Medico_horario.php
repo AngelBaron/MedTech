@@ -15,7 +15,7 @@ class Medico_horario extends Model
     //timestamps false
     public $timestamps = false;
 
-    public function medico()
+    public function medicos()
     {
         return $this->belongsTo(Medico::class);
     }

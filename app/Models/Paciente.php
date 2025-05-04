@@ -14,7 +14,7 @@ class Paciente extends Model
     //timestamps false
     public $timestamps = false;
 
-    public function user()
+    public function users()
     {
         return $this->belongsTo(User::class);
     }
