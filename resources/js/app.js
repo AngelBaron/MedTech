@@ -25,3 +25,15 @@ function selectOnly2(event) {
         event.target.checked = false;
     }
 }
+
+
+window.setEditModalData = function(id, name) {
+    document.getElementById('id').value = id;
+    document.getElementById('na').value = name;
+};
+
+window.setDeleteRoute = function(id,url) {
+    const form = document.getElementById('delete-form');
+    const urlTemplate = url;
+    form.action = urlTemplate.replace('__id__', id);
+};

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Mail\RegistroPaciente;
+use App\Models\Medico;
 use App\Models\Paciente;
 use App\Models\User;
 use Illuminate\Auth\Events\Registered;
@@ -21,7 +22,9 @@ class PacienteController extends Controller
 
     public function mostrarAgendarCita()
     {
-        return view('paciente.agendarCita');
+        $medicos = Medico::with(['Medico_dias','Medico_horarios'])->get();
+
+        return view('paciente.agendarCita', compact('medicos'));
     }
 
     public function store(Request $request)

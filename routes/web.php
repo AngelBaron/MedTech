@@ -26,6 +26,10 @@ Route::middleware('auth','role:Administrador')->group(function () {
     Route::post('/registrarMedico', [AdministradorController::class,'crearMedico'])->name('crearMedico');
     Route::get('/registrarEnfermera', [AdministradorController::class,'registrarEnfermera'])->name('registrarEnfermera');
     Route::post('/registrarEnfermera', [AdministradorController::class,'crearEnfermera'])->name('crearEnfermera');
+    Route::get('/registrarEspecialidad', [AdministradorController::class,'mostrarregistrarEspecialidad'])->name('registrarEspecialidad');
+    Route::post('/registrarEspecialidad', [AdministradorController::class,'crearEspecialidad'])->name('crearEspecialidad');
+    Route::delete('/eliminarEspecialidad/{id}', [AdministradorController::class,'destroyEspecialidad'])->name('destroyEspecialidad');
+    Route::post('/editarEspecialidad', [AdministradorController::class,'actualizarEspecialidad'])->name('editarEspecialidad');
 });
 
 

@@ -20,5 +20,20 @@ class Medico extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function Medico_dia()
+    {
+        return $this->hasMany(Medico_dia::class);
+    }
+
+    public function Medico_hora()
+    {
+        return $this->hasMany(Medico_horario::class);
+    }
+
+    public function Medico_especialidad()
+    {
+        return $this->hasMany(Medico_especialidad::class);
+    }
+    
     
 }

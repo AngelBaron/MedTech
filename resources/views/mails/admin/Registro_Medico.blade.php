@@ -14,15 +14,9 @@
 </strong></p>
 <p>Su horario de trabajo es:
 <strong>
-    @php
-        $turnos_inicio_array = explode(',', $horario_inicio);
-        $turnos_fin_array = explode(',', $horario_fin);
-    @endphp
-    @foreach ($turnos_inicio_array as $key => $inicio)
-        INICIO: {{ $inicio }} - FINAL {{ $turnos_fin_array[$key] }}
-        @if (!$loop->last)
-            ,
-        @endif
-    @endforeach
+    
+    
+        INICIO: {{ $horario_inicio }} - FINAL {{ $horario_fin }}
+        
 </strong>
 </p>
