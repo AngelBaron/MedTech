@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Mail\RegistroPaciente;
 use App\Models\Especialidad;
 use App\Models\Medico;
+use App\Models\Medico_dia;
 use App\Models\Medico_especialidad;
+use App\Models\Medico_horario;
 use App\Models\Paciente;
 use App\Models\User;
 use Illuminate\Auth\Events\Registered;
@@ -28,6 +30,12 @@ class PacienteController extends Controller
         $especialidades = Especialidad::all();
 
         return view('paciente.agendarCita', compact('medicos', 'especialidades'));
+    }
+
+    public function porDias($id)
+    {
+        $dias = Medico_dia::with('dia')->where('medico_id', $id)->get();
+        return response()->json($dias);
     }
 
     public function porEspecialidad($id)

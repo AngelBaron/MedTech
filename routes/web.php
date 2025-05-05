@@ -36,6 +36,7 @@ Route::middleware('auth','role:Administrador')->group(function () {
 
 Route::middleware('auth','role:Paciente')->group(function () {
     Route::get('/medicos-por-especialidad/{id}', [PacienteController::class, 'porEspecialidad']);
+    Route::get('/dias-por-medico/{id}', [PacienteController::class, 'porDias']);
     Route::get('/agendarCita',[PacienteController::class,'mostrarAgendarCita'])->name('agendarCita');
 });
 

@@ -16,13 +16,13 @@
             @endif
 
 
-            
+
             <div class="mt-4">
                 <x-input-label for="especialidad" :value="__('Especialidad')" />
                 <select id="especialidad" name="especialidad" class="block mt-1 w-full" oninput="seleccionEspecialidad()">
                     <option value="" disabled selected>Porfavor elige una especialidad</option>
                     @foreach ($especialidades as $especialidad)
-                        <option  value="{{ $especialidad->id }}">{{ $especialidad->nombre }}</option>
+                        <option value="{{ $especialidad->id }}">{{ $especialidad->nombre }}</option>
                     @endforeach
                 </select>
                 <x-input-error :messages="$errors->get('especialidad')" class="mt-2" />
@@ -30,15 +30,25 @@
 
             <div class="mt-4" hidden id="medicosDiv">
                 <x-input-label for="medicos" :value="__('Medico')" />
-                <select id="medicos" name="medicos" class="block mt-1 w-full" oninput="seleccionMedico()" >
-                    
+                <select id="medicos" name="medicos" class="block mt-1 w-full" oninput="seleccionMedico()">
+
                 </select>
                 <x-input-error :messages="$errors->get('medicos')" class="mt-2" />
             </div>
-            
+
+            <div hidden id="diaDiv" class="mt-4">
+                <x-input-label for="fecha" :value="__('Elige tu fecha para tu cita:')" />
+                <input type="text" id="fecha" class="form-control" placeholder="Selecciona una fecha" oninput="seleccionFecha()">
+            </div>
+
+            <div class="mt-4">
+                <x-input-label for="hora" :value="__('Elige tu hora para tu cita:')" />
+                <input type="text" id="hora" class="form-control" placeholder="Selecciona una hora" >
+            </div>
 
 
-            
+
+
         </div>
     </div>
 
