@@ -11,7 +11,7 @@ window.Alpine = Alpine;
 
 Alpine.start();
 window.selectOnly2 = selectOnly2;
-
+//FUNCIONES PARA EL ADMINISTRADOR
 //funcion que evita seleccionar 3 opciones en el checkbox con el id="checkbox"
 function selectOnly2(event) {
     const checkboxes = document.querySelectorAll('.opciones-check');
@@ -42,6 +42,10 @@ window.setDeleteRoute = function (id, url) {
     form.action = urlTemplate.replace('__id__', id);
 };
 
+
+
+
+//FUNCIONES PARA EL PACIENTE
 window.seleccionEspecialidad = function () {
     let especialidad = document.getElementById('especialidad').value;
     document.getElementById('diaDiv').style.display = 'none';
@@ -109,10 +113,88 @@ window.seleccionMedico = function () {
 }
 
 window.seleccionFecha = function () {
+    const fecha = document.getElementById('fecha').value;
+    const medico = document.getElementById('medicos').value;
+
+    if (medico != 0) {
+        fetch('/horas-por-medico/' + medico)
+            .then(response => response.json())
+            .then(horarioData => {
+                const inicio = horarioData.horario_inicio; // "08:00:00"
+                const fin = horarioData.horario_fin;       // "16:00:00"
+
+                fetch('/citas-por-medico/' + medico + '/' + fecha)
+                    .then(response => response.json())
+                    .then(citasData => {
+                        const horasOcupadas = citasData.map(c => c.hora.slice(0, 5)); // "HH:mm"
+
+                        
 
 
+                        const horasDisponibles = generarHorasDisponibles(inicio, fin, horasOcupadas);
+
+                        llenarSelect(horasDisponibles);
+                    });
+            });
+    }
+};
+
+function generarHorasDisponibles(inicio, fin, ocupadas) {
+    const disponibles = [];
+
+    // Solo dejamos HH:mm
+    inicio = inicio.slice(0, 5);
+    fin = fin.slice(0, 5);
+
+    let [h, m] = inicio.split(":").map(Number);
+    let [fh, fm] = fin.split(":").map(Number);
+
+    let startMinutes = h * 60 + m;
+    let endMinutes = fh * 60 + fm;
+
+    // Si el horario cruza la medianoche
+    if (endMinutes <= startMinutes) {
+        endMinutes += 24 * 60;
+    }
+
+    for (let mins = startMinutes; mins <= endMinutes; mins += 30) {
+        let actualH = Math.floor(mins % (24 * 60) / 60);
+        let actualM = mins % 60;
+        const horaStr = `${actualH.toString().padStart(2, "0")}:${actualM.toString().padStart(2, "0")}`;
+
+        if (!ocupadas.includes(horaStr)) {
+            disponibles.push(horaStr);
+        }
+    }
+
+    return disponibles;
+}
+
+
+function llenarSelect(horas) {
+    const select = document.getElementById('hora');
+    select.innerHTML = '<option value="">Selecciona una hora</option>';
+
+    horas.forEach(hora => {
+        const option = document.createElement('option');
+        option.value = hora;
+        option.textContent = hora;
+        select.appendChild(option);
+    });
+
+    document.getElementById('horaDiv').style.display = 'block';
+}
+
+window.seleccionHora = function () {
+    document.getElementById('motivoDiv').style.display = 'block';
 
 }
+
+window.seleccionMotivo = function () {
+    document.getElementById('submitDiv').style.display = 'block';
+
+}
+
 
 const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
 
@@ -134,51 +216,9 @@ flatpickr("#fecha", {
     theme: prefersDark ? "dark" : "light"
 });
 
-document.getElementById("hora").setAttribute("readonly", "readonly");
-
-let fueSeleccionManual = true;
-
-const inputHora = document.getElementById("hora");
-
-flatpickr("#hora", {
-
-
-    enableTime: true,
-    noCalendar: true,
-    dateFormat: "H:i",
-    theme: prefersDark ? "dark" : "light",
-    minTime: "16:00",
-    maxTime: "22:30",
-    minuteIncrement: 30,
-    allowInput: false,  // Deshabilitar entrada manual
-    onOpen: function () {
-        fueSeleccionManual = false; // viene del calendario
-    },
-    onClose: function (selectedDates, dateStr, instance) {
-        fueSeleccionManual = true; // ya se cerró, puede venir input manual
-    }
-});
 
 
 
-inputHora.addEventListener("change", () => {
-    const valor = inputHora.value;
-    const [horaStr, minutosStr] = valor.split(":");
 
-    let hora = parseInt(horaStr, 10);
-    let minutos = parseInt(minutosStr, 10);
 
-    if (isNaN(hora) || isNaN(minutos)) return;
 
-    
-    minutos = minutos < 15 ? 0 : (minutos < 45 ? 30 : 0);
-    if (minutos === 0 && parseInt(minutosStr) >= 45) {
-        hora = (hora + 1) % 24; 
-    }
-
-    
-    const horaFormateada = hora.toString().padStart(2, "0");
-    const minutosFormateados = minutos.toString().padStart(2, "0");
-
-    inputHora.value = `${horaFormateada}:${minutosFormateados}`;
-});

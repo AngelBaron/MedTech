@@ -37,7 +37,10 @@ Route::middleware('auth','role:Administrador')->group(function () {
 Route::middleware('auth','role:Paciente')->group(function () {
     Route::get('/medicos-por-especialidad/{id}', [PacienteController::class, 'porEspecialidad']);
     Route::get('/dias-por-medico/{id}', [PacienteController::class, 'porDias']);
+    Route::get('/horas-por-medico/{id}', [PacienteController::class, 'porHoras']);
+    Route::get('/citas-por-medico/{id}/{fecha}', [PacienteController::class, 'citasPorMedico']);
     Route::get('/agendarCita',[PacienteController::class,'mostrarAgendarCita'])->name('agendarCita');
+    Route::post('/agendarCita',[PacienteController::class,'agendarCita'])->name('agendarCita');
 });
 
 require __DIR__.'/auth.php';

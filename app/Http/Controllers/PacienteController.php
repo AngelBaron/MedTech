@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Mail\RegistroPaciente;
+use App\Models\Cita;
 use App\Models\Especialidad;
 use App\Models\Medico;
 use App\Models\Medico_dia;
@@ -38,12 +39,56 @@ class PacienteController extends Controller
         return response()->json($dias);
     }
 
+    public function porHoras($id)
+    {
+        $horarios = Medico_horario::where('medico_id', $id)->first();
+        return response()->json($horarios);
+    }
+
     public function porEspecialidad($id)
     {
         
         $medicos = Medico_especialidad::with('medico.user')->where('especialidad_id',$id)->get();
         return response()->json($medicos);
     }
+
+    public function citasPorMedico($id, $fecha)
+    {
+        $citas = Cita::where('medico_id', $id)->where('fecha', $fecha)->get();
+        return response()->json($citas);
+    }
+
+
+    public function agendarCita(Request $request)
+    {
+        
+        
+        $request->validate([
+            'medicos' => 'required|exists:medicos,id',
+            'fecha' => 'required|date',
+            'hora' => 'required|date_format:H:i',
+            'motivo' => 'required|string|max:255',
+        ]);
+        
+        
+
+        $paciente = Paciente::where('user_id', Auth::user()->id)->first();
+
+        
+
+        Cita::create([
+            'medico_id' => $request->medicos,
+            'paciente_id' => $paciente->id,
+            'fecha' => $request->fecha,
+            'hora' => $request->hora,
+            'motivo_cita' => $request->motivo
+        ]);
+
+        
+
+        return redirect()->back()->with('success', 'Cita agendada con éxito.');
+    }
+
 
     public function store(Request $request)
     {
