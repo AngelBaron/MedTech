@@ -43,4 +43,12 @@ Route::middleware('auth','role:Paciente')->group(function () {
     Route::post('/agendarCita',[PacienteController::class,'agendarCita'])->name('agendarCita');
 });
 
+
+Route::middleware('auth','role:Medico')->group(function () {
+    Route::get('/citas', [MedicoController::class, 'mostrarcitas'])->name('citas');
+
+
+});
+
+
 require __DIR__.'/auth.php';

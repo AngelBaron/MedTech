@@ -1,3 +1,15 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+.fc .fc-daygrid-day-number {
+  @apply text-gray-800 dark:text-gray-100;
+}
+
+.fc .fc-col-header-cell-cushion {
+    @apply text-gray-800 dark:text-gray-100;
+}
+.fc .fc-toolbar-title {
+  @apply text-black dark:text-white;
+}

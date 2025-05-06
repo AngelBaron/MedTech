@@ -7,6 +7,12 @@ import flatpickr from "flatpickr";
 import { Spanish } from "flatpickr/dist/l10n/es.js";
 import "flatpickr/dist/flatpickr.min.css";
 import "flatpickr/dist/themes/dark.css";
+
+
+
+import './calendar'
+
+
 window.Alpine = Alpine;
 
 Alpine.start();
@@ -197,10 +203,6 @@ window.seleccionMotivo = function () {
 
 
 const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-
-if (prefersDark) {
-    document.getElementById("fecha").classList.add("flatpickr-dark");
-}
 
 flatpickr("#fecha", {
     dateFormat: "Y-m-d",

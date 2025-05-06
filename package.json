@@ -18,7 +18,12 @@
         "vite": "^6.2.4"
     },
     "dependencies": {
+        "@fullcalendar/bootstrap5": "^6.1.17",
+        "@fullcalendar/core": "^6.1.17",
+        "@fullcalendar/daygrid": "^6.1.17",
+        "@fullcalendar/interaction": "^6.1.17",
         "flatpickr": "^4.6.13",
-        "flowbite": "^3.1.2"
+        "flowbite": "^3.1.2",
+        "fullcalendar": "^6.1.17"
     }
 }

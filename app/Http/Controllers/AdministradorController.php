@@ -145,7 +145,7 @@ class AdministradorController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'password' => $pass,
-            'rol' => 'Medico',
+            'role' => 'Medico',
 
         ]);
 
