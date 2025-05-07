@@ -224,3 +224,6 @@ flatpickr("#fecha", {
 
 
 
+window.cerrarModal = function () {
+    document.getElementById('modal-citas').classList.add('hidden');
+}

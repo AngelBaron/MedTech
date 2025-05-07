@@ -46,7 +46,8 @@ Route::middleware('auth','role:Paciente')->group(function () {
 
 Route::middleware('auth','role:Medico')->group(function () {
     Route::get('/citas', [MedicoController::class, 'mostrarcitas'])->name('citas');
-
+    Route::get('/conteo-citas', [MedicoController::class,'conteoPorFecha']);
+    Route::get('/citas-detalle/{estado}/{fecha}', [MedicoController::class, 'detalle']);
 
 });
 
