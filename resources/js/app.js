@@ -133,10 +133,6 @@ window.seleccionFecha = function () {
                     .then(response => response.json())
                     .then(citasData => {
                         const horasOcupadas = citasData.map(c => c.hora.slice(0, 5)); // "HH:mm"
-
-                        
-
-
                         const horasDisponibles = generarHorasDisponibles(inicio, fin, horasOcupadas);
 
                         llenarSelect(horasDisponibles);
