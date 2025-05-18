@@ -52,6 +52,7 @@ Route::middleware('auth','role:Medico')->group(function () {
     Route::post('/cancelar-cita', [MedicoController::class, 'cancelarCita'])->name('cancelarCita');
     Route::get('/comenzar-cita/{id}', [MedicoController::class, 'comenzarCita'])->name('comenzarCita');
     Route::get('/finalizar-cita', [MedicoController::class, 'finalizarCita'])->name('finalizarCita');
+    Route::post('/finalizar-cita/{pacienteId}/{citaId}', [MedicoController::class, 'finalizarCita'])->name('finalizarCita');
 
 });
 

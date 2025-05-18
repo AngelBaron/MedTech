@@ -11,6 +11,7 @@ import "flatpickr/dist/themes/dark.css";
 
 
 import './calendar'
+import './cita'
 
 
 window.Alpine = Alpine;
@@ -223,3 +224,5 @@ flatpickr("#fecha", {
 window.cerrarModal = function () {
     document.getElementById('modal-citas').classList.add('hidden');
 }
+
+

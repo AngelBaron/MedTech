@@ -16,8 +16,6 @@ class Tratamiento extends Model
         'fecha_fin',
     ];
 
-    //timestamps false
-    public $timestamps = false;
 
     public function paciente()
     {

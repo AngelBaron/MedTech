@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Archivo extends Model
 {
     protected $fillable = [
-        'exopediente_id',
+        'expediente_id',
         'medico_id',
         'observaciones',
         'receta_id',
