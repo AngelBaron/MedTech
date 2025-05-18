@@ -45,5 +45,17 @@ class MedicoController extends Controller
         return response()->json($citas);
     }
 
+    public function confirmarCita(Request $request)
+    {
+        $cita = Cita::where('paciente_id', $request->pacienteId)->where('fecha',$request->fecha)->where('hora', $request->hora)->first();
+        if ($cita) {
+            $cita->estado = 'confirmada';
+            $cita->save();
+            return response()->json(['success' => true]);
+        } else {
+            return response()->json(['success' => false, 'message' => 'Cita no encontrada']);
+        }
+    }
+
     
 }
