@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Cita;
 use App\Models\Medico;
+use App\Models\Paciente;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -13,6 +14,17 @@ class MedicoController extends Controller
     public function mostrarCitas()
     {
         return view('medico.citas');
+    }
+
+    public function comenzarCita($id)
+    {
+        $cita = Cita::find($id);
+        $paciente = Paciente::where('id', $cita->paciente_id)->with('user')->first();
+        if ($cita->estado == 'confirmada'||$cita->estado == 'en curso'||$cita->estado == 'curso') {
+            $cita->estado = 'curso';
+            $cita->save();
+        } 
+        return view('medico.CitaInicio', compact('cita','paciente'));
     }
 
     public function conteoPorFecha()

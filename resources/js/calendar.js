@@ -144,6 +144,8 @@ if (calendarEl) {
                     <p class= "text-gray-900 dark:text-white"><strong>Hora:</strong> ${cita.hora}</p>
                     <p class= "text-gray-900 dark:text-white"><strong>Motivo:</strong> ${cita.motivo_cita}</p>
                     <div class="flex gap-2 mt-2">
+                        
+                        <button class="bg-green-600 text-white px-2 py-1 rounded text-xs" style="background-color: #328e37 !important;" onclick="window.location.href='comenzar-cita/${cita.id}'">Comenzar</button>
                         <button class="bg-red-600 text-white px-2 py-1 rounded text-xs" onclick="cancelarCita('${cita.id}')">Cancelar</button>
                     </div>
                 </div>
