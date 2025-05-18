@@ -57,5 +57,17 @@ class MedicoController extends Controller
         }
     }
 
+
+    public function cancelarCita(Request $request)
+    {
+        $cita = Cita::find($request->citaId);
+        if ($cita) {
+            $cita->estado = 'cancelada';
+            $cita->save();
+            return response()->json(['success' => true]);
+        } else {
+            return response()->json(['success' => false, 'message' => 'Cita no encontrada']);
+        }
+    }
     
 }

@@ -126,7 +126,7 @@ if (calendarEl) {
                     <p class= "text-gray-900 dark:text-white"><strong>Motivo:</strong> ${cita.motivo_cita}</p>
                     <div class="flex gap-2 mt-2">
                         <button class="bg-green-600 text-white px-2 py-1 rounded text-xs" style="background-color: #328e37 !important;" onclick="confirmarCita('${cita.hora}','${cita.paciente.id}','${cita.fecha}','${cita.id}')">Confirmar</button>
-                        <button class="bg-red-600 text-white px-2 py-1 rounded text-xs">Cancelar</button>
+                        <button class="bg-red-600 text-white px-2 py-1 rounded text-xs" onclick="cancelarCita('${cita.id}')">Cancelar</button>
                     </div>
                 </div>
             `).join('');
@@ -139,12 +139,12 @@ if (calendarEl) {
         cont.innerHTML = data
             .sort((a, b) => compararHoras(a.hora, b.hora))
             .map(cita => `
-                <div class="border p-2 rounded shadow-sm text-sm">
+                <div class="border p-2 rounded shadow-sm text-sm" id="cita-${cita.id}">
                     <p class= "text-gray-900 dark:text-white"><strong>Paciente:</strong> ${cita.paciente.user.name}</p>
                     <p class= "text-gray-900 dark:text-white"><strong>Hora:</strong> ${cita.hora}</p>
                     <p class= "text-gray-900 dark:text-white"><strong>Motivo:</strong> ${cita.motivo_cita}</p>
                     <div class="flex gap-2 mt-2">
-                        <button class="bg-red-600 text-white px-2 py-1 rounded text-xs">Cancelar</button>
+                        <button class="bg-red-600 text-white px-2 py-1 rounded text-xs" onclick="cancelarCita('${cita.id}')">Cancelar</button>
                     </div>
                 </div>
             `).join('');
@@ -205,5 +205,33 @@ window.confirmarCita = function (hora, pacienteId, fecha,citaId) {
         });
 
 
+}
+
+window.cancelarCita = function (citaId){
+    console.log('Cancelar cita', citaId);
+
+    fetch('/cancelar-cita', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+        },
+        body: JSON.stringify({ citaId })
+    })
+        .then(response => {
+            if (response.ok) {
+                console.log('Cita cancelada');
+                // Aquí puedes actualizar el calendario o hacer otra acción
+                if (window.calendar) {
+                    window.calendar.refetchEvents();
+                    document.getElementById(`cita-${citaId}`).remove();
+                }
+            } else {
+                console.error('Error al cancelar la cita');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
 }
 
