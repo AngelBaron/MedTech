@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AdministradorController;
+use App\Http\Controllers\EnfermeraController;
 use App\Http\Controllers\MedicoController;
 use App\Http\Controllers\PacienteController;
 use App\Http\Controllers\ProfileController;
@@ -54,6 +55,10 @@ Route::middleware('auth','role:Medico')->group(function () {
     Route::get('/finalizar-cita', [MedicoController::class, 'finalizarCita'])->name('finalizarCita');
     Route::post('/finalizar-cita/{pacienteId}/{citaId}', [MedicoController::class, 'finalizarCita'])->name('finalizarCita');
 
+});
+
+Route::middleware('auth','role:Enfermera')->group(function () {
+    Route::get('/tratamientos', [EnfermeraController::class, 'mostrarTratamientos'])->name('tratamientos');
 });
 
 

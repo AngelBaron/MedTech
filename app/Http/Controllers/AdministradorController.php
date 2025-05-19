@@ -87,7 +87,7 @@ class AdministradorController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'password' => $pass,
-            'rol' => 'Enfermera',
+            'role' => 'Enfermera',
         ]);
 
         Enfermera::create([
