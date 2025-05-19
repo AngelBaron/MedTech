@@ -114,6 +114,8 @@ class MedicoController extends Controller
         $conteo = DB::table('citas')->select('fecha')->selectRaw("SUM(CASE WHEN estado = 'Pendiente' THEN 1 ELSE 0 END) as pendiente")
             ->selectRaw("SUM(CASE WHEN estado = 'confirmada' THEN 1 ELSE 0 END) as confirmada")
             ->selectRaw("SUM(CASE WHEN estado = 'cancelada' THEN 1 ELSE 0 END) as cancelada")
+            ->selectRaw("SUM(CASE WHEN estado = 'curso' THEN 1 ELSE 0 END) as curso")
+            ->selectRaw("SUM(CASE WHEN estado = 'finalizada' THEN 1 ELSE 0 END) as finalizada")
             ->where('medico_id', $medicoId)
             ->groupBy('fecha')
             ->get();
