@@ -16,6 +16,8 @@ async function cargarConteo() {
             pendientes: cita.pendiente,
             confirmadas: cita.confirmada,
             canceladas: cita.cancelada,
+            finalizadas: cita.finalizada,
+            cursos: cita.curso,
         }
     }));
 }
@@ -47,7 +49,7 @@ if (calendarEl) {
             }
         },
         eventContent: function (arg) {
-            const { pendientes, confirmadas, canceladas } = arg.event.extendedProps;
+            const { pendientes, confirmadas, canceladas, finalizadas, cursos } = arg.event.extendedProps;
 
             console.log('Pendientes:', pendientes);
             console.log('Confirmadas:', confirmadas);
@@ -56,23 +58,30 @@ if (calendarEl) {
                 html: `
                     <div class="flex flex-col items-start space-y-1 w-full">
                         <button type="button"
-                        style="background-color: #1d3f7e  !important;"
-                        data-fecha="${arg.event.startStr}"
-                        class="btn-pendientes bg-red-400 text-xs text-white px-2 py-1 rounded w-full text-left">
-                            ${pendientes} Pendientes
+                            style="background-color: #1d3f7e  !important;"
+                            data-fecha="${arg.event.startStr}"
+                            class="btn-pendientes bg-red-400 text-xs text-white px-2 py-1 rounded w-full text-left">
+                                ${pendientes} Pendientes
                         </button>
                         <button type="button"
-                        style="background-color: #328e37 !important;"
-                        data-fecha="${arg.event.startStr}"
-                        class="btn-confirmadas bg-green-500 text-xs text-white px-2 py-1 rounded w-full text-left">
-                            ${confirmadas} Confirmadas
+                            style="background-color: #328e37 !important;"
+                            data-fecha="${arg.event.startStr}"
+                            class="btn-confirmadas bg-green-500 text-xs text-white px-2 py-1 rounded w-full text-left">
+                                ${confirmadas} Confirmadas
                         </button>
 
                         <button type="button"
-                        style="background-color:  #8e3232 !important;"
-                        data-fecha="${arg.event.startStr}"
-                        class="btn-canceladas bg-green-500 text-xs text-white px-2 py-1 rounded w-full text-left">
-                            ${canceladas} Canceladas
+                            style="background-color:  #8e3232 !important;"
+                            data-fecha="${arg.event.startStr}"
+                            class="btn-canceladas bg-green-500 text-xs text-white px-2 py-1 rounded w-full text-left">
+                                ${canceladas} Canceladas
+                        </button>
+
+                        <button type="button"
+                            style="background-color: #36377c  !important;"
+                            data-fecha="${arg.event.startStr}"
+                            class="btn-finalizadas bg-blue-500 text-xs text-white px-2 py-1 rounded w-full text-left">
+                                ${finalizadas} Finalizadas
                         </button>
                     </div>
                 `
@@ -108,9 +117,27 @@ if (calendarEl) {
             const data = await fetch(`/citas-detalle/cancelada/${fecha}`).then(r => r.json());
             mostrarModalCanceladas(data, fecha);
         }
+
+        if (e.target.classList.contains('btn-finalizadas')) {
+            const data = await fetch(`/citas-detalle/finalizada/${fecha}`).then(r => r.json());
+            mostrarModalFinalizadas(data, fecha);
+        }
     });
 
-
+    function mostrarModalFinalizadas(data, fecha) {
+        const cont = document.getElementById('modal-contenido');
+        document.getElementById('modal-titulo').innerText = `Finalizadas - ${fecha}`;
+        cont.innerHTML = data
+            .sort((a, b) => compararHoras(a.hora, b.hora))
+            .map(cita => `
+                <div class="border p-2 rounded shadow-sm bg-yellow-100 text-sm" id="cita-${cita.id}">
+                    <p class= "text-gray-900 dark:text-white"><strong>Paciente:</strong> ${cita.paciente.user.name}</p>
+                    <p class= "text-gray-900 dark:text-white"><strong>Hora:</strong> ${cita.hora}</p>
+                    <p class= "text-gray-900 dark:text-white"><strong>Motivo:</strong> ${cita.motivo_cita}</p>
+                </div>
+            `).join('');
+        document.getElementById('modal-citas').classList.remove('hidden');
+    }
 
 
 
@@ -179,7 +206,7 @@ if (calendarEl) {
 }
 
 
-window.confirmarCita = function (hora, pacienteId, fecha,citaId) {
+window.confirmarCita = function (hora, pacienteId, fecha, citaId) {
     console.log('Confirmar cita', hora, pacienteId, fecha);
 
     fetch('/confirmar-cita', {
@@ -209,7 +236,7 @@ window.confirmarCita = function (hora, pacienteId, fecha,citaId) {
 
 }
 
-window.cancelarCita = function (citaId){
+window.cancelarCita = function (citaId) {
     console.log('Cancelar cita', citaId);
 
     fetch('/cancelar-cita', {
