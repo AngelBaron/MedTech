@@ -35,7 +35,7 @@ class MedicoController extends Controller
     {
         $request->validate([
             'observaciones' => 'required',
-            'estado' => 'required', 
+            'estado' => 'required',
 
             'diagnostico' => function ($attribute, $value, $fail) use ($request) {
                 if ($request->estado === 'true' && empty($value)) {
@@ -62,7 +62,7 @@ class MedicoController extends Controller
             },
         ]);
 
-        
+
         $cita = Cita::find($cita);
         $paciente = Paciente::where('id', $paciente)->with('user')->first();
         $medico = Medico::where('user_id', Auth::user()->id)->first();
@@ -83,15 +83,10 @@ class MedicoController extends Controller
             'recetatxt' => $request->receta ?? 'SIN RECETA',
         ]);
 
-        Archivo::create([
-            'expediente_id' => $expediente->id,
-            'medico_id' => $medico->id,
-            'observaciones' => $request->observaciones,
-            'receta_id' => $receta->id,
-        ]);
 
-        if($request->estado == 'true'){
-            Tratamiento::create([
+
+        if ($request->estado == 'true') {
+            $tratamiento = Tratamiento::create([
                 'medico_id' => $medico->id,
                 'paciente_id' => $paciente->id,
                 'diagnostico' => $request->diagnostico,
@@ -100,11 +95,26 @@ class MedicoController extends Controller
                 'fecha_fin' => $request->finFecha,
             ]);
 
-            return redirect()->route('citas')->with('success', 'Cita finalizada y tratamiento registrado correctamente');
+            Archivo::create([
+                'expediente_id' => $expediente->id,
+                'medico_id' => $medico->id,
+                'observaciones' => $request->observaciones,
+                'receta_id' => $receta->id,
+                'tratamiento_id' => $tratamiento->id,
+            ]);
 
+            return redirect()->route('citas')->with('success', 'Cita finalizada y tratamiento registrado correctamente');
+        } else {
+            Archivo::create([
+                'expediente_id' => $expediente->id,
+                'medico_id' => $medico->id,
+                'observaciones' => $request->observaciones,
+                'receta_id' => $receta->id,
+            ]);
+            return redirect()->route('citas')->with('success', 'Cita finalizada correctamente');
         }
-        return redirect()->route('citas')->with('success', 'Cita finalizada correctamente');
     }
+
 
 
     public function conteoPorFecha()

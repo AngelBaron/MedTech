@@ -11,6 +11,7 @@ class Archivo extends Model
         'medico_id',
         'observaciones',
         'receta_id',
+        'tratamiento_id',
     ];
 
 
@@ -19,4 +20,9 @@ class Archivo extends Model
     {
         return $this->belongsTo(Expediente::class);
     }
+    public function receta(){
+        return $this->belongsTo(Receta::class);
+    }
+
+    
 }

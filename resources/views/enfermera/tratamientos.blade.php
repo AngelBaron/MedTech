@@ -7,7 +7,6 @@
     </x-slot>
 
     @foreach ($tratamientos as $tratamiento)
-
         <div class="py-4">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg dark:bg-gray-800">
@@ -20,11 +19,19 @@
                         <p><strong>Indicaciones:</strong> {{ $tratamiento->indicaciones }}</p>
                         <p><strong>Fecha de Inicio:</strong> {{ $tratamiento->fecha_inicio }}</p>
                         <p><strong>Fecha de Fin:</strong> {{ $tratamiento->fecha_fin }}</p>
+                        <div class="mt-4">
+                            <x-button >
+                                <a href="{{ route('validarReceta', $tratamiento->id) }}">
+                                    {{ __('Validar Receta') }}
+                                </a>
+                            </x-button>
+                        </div>
                     </div>
                 </div>
+
+
             </div>
         </div>
-        
     @endforeach
 
 

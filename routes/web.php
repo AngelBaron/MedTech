@@ -59,6 +59,7 @@ Route::middleware('auth','role:Medico')->group(function () {
 
 Route::middleware('auth','role:Enfermera')->group(function () {
     Route::get('/tratamientos', [EnfermeraController::class, 'mostrarTratamientos'])->name('tratamientos');
+    Route::get('/validarReceta/{id}', [EnfermeraController::class, 'validarReceta'])->name('validarReceta');
 });
 
 
