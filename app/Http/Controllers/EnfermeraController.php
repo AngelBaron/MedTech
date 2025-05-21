@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Archivo;
+use App\Models\Lote;
 use App\Models\Medicamento;
 use App\Models\Receta;
 use App\Models\Tratamiento;
@@ -49,4 +50,30 @@ class EnfermeraController extends Controller
         return redirect()->route('medicinas')->with('success', 'Medicamento registrado correctamente');
         
     }
+
+    public function verLote($id){
+        $medicina = Medicamento::find($id);
+
+        return view('enfermera.verLotes', compact('medicina'));
+    }
+
+
+    public function registrarLote(Request $request, $id){
+        $request->validate(
+            [
+                "numeroLote"=>"required|string|max:255",
+                "fecha"=>"required|date",
+                "cantidad"=>"required|int|min:1",
+            ]
+        );
+
+        Lote::create([
+            "numero_lote"=>$request->numeroLote,
+            "fecha_vencimiento"=>$request->fecha,
+            "cantidad"=>$request->cantidad,
+            "medicamento_id"=>$id
+        ]);
+
+        return redirect()->back()->with('success','El lote a sido registrado correctamente');
+    }   
 }

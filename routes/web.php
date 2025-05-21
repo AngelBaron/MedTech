@@ -5,6 +5,7 @@ use App\Http\Controllers\EnfermeraController;
 use App\Http\Controllers\MedicoController;
 use App\Http\Controllers\PacienteController;
 use App\Http\Controllers\ProfileController;
+use App\Models\Enfermera;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -64,6 +65,7 @@ Route::middleware('auth','role:Enfermera')->group(function () {
     Route::get('/medicinas', [EnfermeraController::class, 'mostrarMedicinas'])->name('medicinas');
     Route::post('/registrarMedicina',[EnfermeraController::class,'registrarMedicina'])->name('registrarMedicina');
     Route::get('/ver-lote/{id}',[EnfermeraController::class,'verLote'])->name('ver-lote');
+    Route::post('/registrarLote/{id}',[EnfermeraController::class,'registrarLote'])->name('registrarLote');
 });
 
 
