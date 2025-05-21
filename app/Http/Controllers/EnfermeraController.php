@@ -16,7 +16,7 @@ class EnfermeraController extends Controller
     }
 
     public function mostrarMedicinas(){
-        $medicinas = Medicamento::with('lotes')->get();
+        $medicinas = Medicamento::all();
         return view('enfermera.medicinas', compact('medicinas'));
     }
 

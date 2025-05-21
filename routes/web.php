@@ -63,6 +63,7 @@ Route::middleware('auth','role:Enfermera')->group(function () {
     Route::post('/validarReceta/{id}', [EnfermeraController::class, 'validarRecetaPost'])->name('validarRecetaPost');
     Route::get('/medicinas', [EnfermeraController::class, 'mostrarMedicinas'])->name('medicinas');
     Route::post('/registrarMedicina',[EnfermeraController::class,'registrarMedicina'])->name('registrarMedicina');
+    Route::get('/ver-lote/{id}',[EnfermeraController::class,'verLote'])->name('ver-lote');
 });
 
 

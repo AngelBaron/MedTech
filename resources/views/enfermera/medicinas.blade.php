@@ -95,5 +95,12 @@
 
 
     {{-- Aqui la lista de medicinas disponibles --}}
+    <div class="grid grid-cols-2 md:grid-cols-3 gap-4 justify-self-center pt-6 ml-4 mr-4">
+        @foreach ($medicinas as $medicina)
+            <x-card-info-med ruta="{{ route('ver-lote', $medicina->id) }}" titulo="Ver lotes">
+                {{ $medicina->nombre }}
+            </x-card-info-med>
+        @endforeach
+    </div>
 
 </x-app-layout>
