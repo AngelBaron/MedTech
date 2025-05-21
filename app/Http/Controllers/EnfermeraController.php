@@ -9,6 +9,8 @@ use App\Models\Receta;
 use App\Models\Tratamiento;
 use Illuminate\Http\Request;
 
+use function Pest\Laravel\get;
+
 class EnfermeraController extends Controller
 {
     public function mostrarTratamientos(){
@@ -53,15 +55,17 @@ class EnfermeraController extends Controller
 
     public function verLote($id){
         $medicina = Medicamento::find($id);
+        $lotes = Lote::where('medicamento_id',$id)->get();
 
-        return view('enfermera.verLotes', compact('medicina'));
+        
+        return view('enfermera.verLotes', compact('medicina','lotes'));
     }
 
 
     public function registrarLote(Request $request, $id){
         $request->validate(
             [
-                "numeroLote"=>"required|string|max:255",
+                "numero_lote"=>"required|string|max:255|unique:lotes",
                 "fecha"=>"required|date",
                 "cantidad"=>"required|int|min:1",
             ]
