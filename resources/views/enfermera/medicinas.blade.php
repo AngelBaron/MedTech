@@ -7,6 +7,9 @@
         </h2>
     </x-slot>
 
-    
+    {{-- Aqui se pone el form para registrar medicinas --}}
+
+
+    {{-- Aqui la lista de medicinas disponibles --}}
 
 </x-app-layout>
