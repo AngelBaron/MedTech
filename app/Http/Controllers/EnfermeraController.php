@@ -27,4 +27,26 @@ class EnfermeraController extends Controller
 
         return view('enfermera.validarReceta', compact('tratamiento','archivo'));
     }
+
+    public function registrarMedicina(Request $request){
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'descripcion' => 'required|string|max:255',
+            'via' => 'required|string|in:Oral,Sublingual,Rectal,Intravenosa,Intramuscular,Subcutánea,Tópica,Inhalatoria,Transdérmica,Vaginal,Intratecal,Intraauricular,Intraocular,Intraarterial,Epidural,Intranasal,Intraperitoneal',
+            'concentracion' => 'required|string|max:255',
+            'presentacion' => 'required|string|max:255',
+        ]
+        );
+
+        Medicamento::create([
+            'nombre'=>$request->name,
+            'descripcion'=>$request->descripcion,
+            'presentacion'=>$request->presentacion,
+            'concentracion'=>$request->concentracion,
+            'via_administracion'=>$request->via,
+        ]);
+
+        return redirect()->route('medicinas')->with('success', 'Medicamento registrado correctamente');
+        
+    }
 }
