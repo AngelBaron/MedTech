@@ -13,6 +13,7 @@ import "flatpickr/dist/themes/dark.css";
 import './calendar'
 import './cita'
 import './lote'
+import './tratamiento';
 
 window.Alpine = Alpine;
 

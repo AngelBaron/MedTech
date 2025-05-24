@@ -42,19 +42,29 @@
             {{-- FORM PARA LAS MEDICINAS BRO XD YA ME CANSE AYUDA SI LEEN ESTO Y SOY FAMOSO PORFAVOR DIGANME HUMILDAD ES LO PRIMERO --}}
 
             {{-- se hizo medicinas ahora toca un poco de codigo de form para hacer una lista de medicinas que sumninistrar al paciente cuando se haya validado una lista de botones de cada medicina con su "ultima suministracion " tal fecha para mañana --}}
-            {{--Pa la racha--}}
+            {{-- Pa la racha --}}
             <form action="{{ route('validarRecetaPost', $tratamiento->id) }}" method="POST">
                 @csrf
-                <div class="mt-4">
-                    <x-input-label for="medicamento" :value="__('Medicamento')" />
-                    <select id="especialidad" name="especialidad" class="block mt-1 w-full">
-                        <option value="" disabled selected>Porfavor elige una medicina</option>
-                        @foreach ($medicinas as $medicina)
-                            <option value="{{ $medicina->id }}">{{ $medicina->nombre }}</option>
-                        @endforeach
-                    </select>
-                    <x-input-error :messages="$errors->get('especialidad')" class="mt-2" />
+                <div id="contenedor-selects">
+                    <div class="mt-4">
+                        <x-input-label for="medicamento-0" :value="__('Medicamento')" />
+                        <select id="medicamento-0" name="medicamentos[]" class="block mt-1 w-full select-medicamento">
+                            <option value="" disabled selected>Por favor elige una medicina</option>
+                            @foreach ($medicinas as $medicina)
+                                <option value="{{ $medicina->id }}">{{ $medicina->nombre }}</option>
+                            @endforeach
+                        </select>
+                        <x-input-error :messages="$errors->get('medicamento')" class="mt-2" />
+                    </div>
                 </div>
+
+                <div class="mt-4">
+                    <x-button type="button" onclick="nuevoMedicamento()">
+                        {{ __('Añadir nuevo medicamento') }}
+                    </x-button>
+                </div>
+
+
 
                 <div class="mt-4">
                     <x-button type="submit">
@@ -64,6 +74,8 @@
 
         </div>
     </div>
-
+    <script>
+        const listaMedicinas = @json($medicinas);
+    </script>
 
 </x-app-layout>
