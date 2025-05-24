@@ -26,6 +26,15 @@
                         <p><strong>Indicaciones:</strong> {{ $tratamiento->indicaciones }}</p>
                         <p><strong>Fecha de Inicio:</strong> {{ $tratamiento->fecha_inicio }}</p>
                         <p><strong>Fecha de Fin:</strong> {{ $tratamiento->fecha_fin }}</p>
+                        @if ($validados->where('tratamiento_id',$tratamiento->id))
+                            <div class="mt-4">
+                            <x-button>
+                                <a href="{{ route('suministrarReceta', $tratamiento->id) }}">
+                                    {{ __('Suministrar') }}
+                                </a>
+                            </x-button>
+                        </div>
+                        @else
                         <div class="mt-4">
                             <x-button>
                                 <a href="{{ route('validarReceta', $tratamiento->id) }}">
@@ -33,6 +42,9 @@
                                 </a>
                             </x-button>
                         </div>
+                        @endif
+
+                       
                     </div>
                 </div>
 

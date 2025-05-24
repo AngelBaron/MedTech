@@ -17,7 +17,8 @@ class EnfermeraController extends Controller
     public function mostrarTratamientos()
     {
         $tratamientos = Tratamiento::all();
-        return view('enfermera.tratamientos', compact('tratamientos'));
+        $validados = Tratamiento_medicamento::all();
+        return view('enfermera.tratamientos', compact('tratamientos','validados'));
     }
 
     public function mostrarMedicinas()
