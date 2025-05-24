@@ -27,8 +27,9 @@ class EnfermeraController extends Controller
     public function validarReceta($id){
         $tratamiento = Tratamiento::find($id);
         $archivo = Archivo::with('receta')->where('tratamiento_id', $id)->first();
+        $medicinas = Medicamento::all();
 
-        return view('enfermera.validarReceta', compact('tratamiento','archivo'));
+        return view('enfermera.validarReceta', compact('tratamiento','archivo','medicinas'));
     }
 
     public function registrarMedicina(Request $request){

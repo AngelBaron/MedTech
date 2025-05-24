@@ -46,11 +46,14 @@
             <form action="{{ route('validarRecetaPost', $tratamiento->id) }}" method="POST">
                 @csrf
                 <div class="mt-4">
-                    <label for="medicinas"
-                        class="block text-sm font-medium text-gray-700 dark:text-gray-200">Medicinas</label>
-                    <textarea id="medicinas" name="medicinas" rows="4"
-                        class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-gray-800 dark:text-gray-200"
-                        required></textarea>
+                    <x-input-label for="medicamento" :value="__('Medicamento')" />
+                    <select id="especialidad" name="especialidad" class="block mt-1 w-full">
+                        <option value="" disabled selected>Porfavor elige una medicina</option>
+                        @foreach ($medicinas as $medicina)
+                            <option value="{{ $medicina->id }}">{{ $medicina->nombre }}</option>
+                        @endforeach
+                    </select>
+                    <x-input-error :messages="$errors->get('especialidad')" class="mt-2" />
                 </div>
 
                 <div class="mt-4">
