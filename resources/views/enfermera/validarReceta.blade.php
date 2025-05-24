@@ -51,15 +51,17 @@
                     @endforeach
                 @endforeach
                 <div id="contenedor-selects">
-                    <div class="mt-4">
+                    <div class="mt-4 grupo-medicamento">
                         <x-input-label for="medicamento-0" :value="__('Medicamento')" />
                         <select id="medicamento-0" name="medicamentos[]" required
-                            class="block mt-1 w-full select-medicamento">
+                            class="block mt-1 w-full select-medicamento"
+                            onchange="mostrarCamposAdicionales(this)">
                             <option value="" disabled selected>Por favor elige una medicina</option>
                             @foreach ($medicinas as $medicina)
                                 <option value="{{ $medicina->id }}">{{ $medicina->nombre }}</option>
                             @endforeach
                         </select>
+                        <div class="campos-adicionales mt-4"></div>
 
                     </div>
                 </div>
