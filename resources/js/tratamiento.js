@@ -60,7 +60,7 @@ window.mostrarCamposAdicionales = function(selectElement) {
 
     const campos = [
         { name: 'dosis[]', label: 'Dosis (número)', type: 'number' },
-        { name: 'dias_o_horas[]', label: 'Horas (número)', type: 'number' },
+        { name: 'horas[]', label: 'Horas (número)', type: 'number' },
         { name: 'frecuencia[]', label: 'Frecuencia', type: 'text' },
         { name: 'duracion_dias[]', label: 'Duración (en días)', type: 'number' }
     ];

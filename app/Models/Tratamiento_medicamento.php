@@ -10,8 +10,10 @@ class Tratamiento_medicamento extends Model
         'tratamiento_id',
         'medicamento_id',
         'dosis',
+        'horas',
         'frecuencia',
         'duracion_dias',
+        'estado'
     ];
 
     //timestamps false
