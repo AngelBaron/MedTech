@@ -42,7 +42,7 @@
             {{-- FORM PARA LAS MEDICINAS BRO XD YA ME CANSE AYUDA SI LEEN ESTO Y SOY FAMOSO PORFAVOR DIGANME HUMILDAD ES LO PRIMERO --}}
 
             {{-- se hizo medicinas ahora toca un poco de codigo de form para hacer una lista de medicinas que sumninistrar al paciente cuando se haya validado una lista de botones de cada medicina con su "ultima suministracion " tal fecha para mañana --}}
-
+            {{--Pa la racha--}}
             <form action="{{ route('validarRecetaPost', $tratamiento->id) }}" method="POST">
                 @csrf
                 <div class="mt-4">
