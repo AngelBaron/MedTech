@@ -45,16 +45,22 @@
             {{-- Pa la racha --}}
             <form action="{{ route('validarRecetaPost', $tratamiento->id) }}" method="POST">
                 @csrf
+                @foreach ($errors->get('medicamentos.*') as $errorMessages)
+                    @foreach ($errorMessages as $message)
+                        <p class="text-sm text-red-600">{{ $message }}</p>
+                    @endforeach
+                @endforeach
                 <div id="contenedor-selects">
                     <div class="mt-4">
                         <x-input-label for="medicamento-0" :value="__('Medicamento')" />
-                        <select id="medicamento-0" name="medicamentos[]" class="block mt-1 w-full select-medicamento">
+                        <select id="medicamento-0" name="medicamentos[]" required
+                            class="block mt-1 w-full select-medicamento">
                             <option value="" disabled selected>Por favor elige una medicina</option>
                             @foreach ($medicinas as $medicina)
                                 <option value="{{ $medicina->id }}">{{ $medicina->nombre }}</option>
                             @endforeach
                         </select>
-                        <x-input-error :messages="$errors->get('medicamento')" class="mt-2" />
+
                     </div>
                 </div>
 
@@ -66,12 +72,12 @@
 
 
 
-                <div class="mt-4">
-                    <x-button type="submit">
-                        {{ __('Validar Receta') }}
-                    </x-button>
+                <div class="flex items-center justify-center mt-4">
+                    <x-primary-button class="ms-4">
+                        {{ __('Validar tratamiento') }}
+                    </x-primary-button>
                 </div>
-
+            </form>
         </div>
     </div>
     <script>
