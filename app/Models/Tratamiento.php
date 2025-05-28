@@ -26,5 +26,9 @@ class Tratamiento extends Model
         return $this->belongsTo(Medico::class);
     }
 
+    public function tratamiento_medicamentos(){
+        return $this->hasMany(Tratamiento_medicamento::class);
+    }
+
     
 }

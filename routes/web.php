@@ -67,6 +67,7 @@ Route::middleware('auth','role:Enfermera')->group(function () {
     Route::get('/ver-lote/{id}',[EnfermeraController::class,'verLote'])->name('ver-lote');
     Route::post('/registrarLote/{id}',[EnfermeraController::class,'registrarLote'])->name('registrarLote');
     Route::get('/suministrarReceta/{id}', [EnfermeraController::class, 'suministrarReceta'])->name('suministrarReceta');
+    Route::post('medicamento-suministrar/{id}',[EnfermeraController::class,'suministrarMedicamento'])->name('suministrarMedicamento');
 });
 
 

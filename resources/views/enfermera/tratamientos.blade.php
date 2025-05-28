@@ -6,7 +6,7 @@
         </h2>
     </x-slot>
 
-{{-- PA LA RACHAAAAAAAA --}}
+
 
     @foreach ($tratamientos as $tratamiento)
         <div class="py-4">

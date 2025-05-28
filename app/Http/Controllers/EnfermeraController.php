@@ -8,7 +8,9 @@ use App\Models\Medicamento;
 use App\Models\Receta;
 use App\Models\Tratamiento;
 use App\Models\Tratamiento_medicamento;
+use DateTime;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Date;
 
 use function Pest\Laravel\get;
 
@@ -18,7 +20,7 @@ class EnfermeraController extends Controller
     {
         $tratamientos = Tratamiento::all();
         $validados = Tratamiento_medicamento::all();
-        return view('enfermera.tratamientos', compact('tratamientos','validados'));
+        return view('enfermera.tratamientos', compact('tratamientos', 'validados'));
     }
 
     public function mostrarMedicinas()
@@ -35,6 +37,38 @@ class EnfermeraController extends Controller
         $medicinas = Medicamento::all();
 
         return view('enfermera.validarReceta', compact('tratamiento', 'archivo', 'medicinas'));
+    }
+
+    //SE RECIBE EL ID DEL TRATAMIENTO VA PARA QUE NO TE CONFUNDAS
+    public function suministrarReceta($id)
+    {
+        $archivo = Archivo::with('expediente.paciente.user', 'receta', 'tratamiento.tratamiento_medicamentos.medicamento')->where('tratamiento_id', $id)->first();
+        $tratamiento = Tratamiento::with('paciente.user')->find($id);
+
+        return view('enfermera.suministrar', compact('archivo'));
+    }
+
+    public function suministrarMedicamento(Request $request, $id)
+    {
+        $time = new DateTime();
+        $tratamiento = Tratamiento_medicamento::where('tratamiento_id', $id)->first();
+        if ($tratamiento) {
+            $lote = Lote::where('medicamento_id', $tratamiento->medicamento_id)
+                ->where('cantidad', '>', 0)
+                ->orderBy('fecha_vencimiento', 'asc')
+                ->first();
+            if (!$lote) {
+                return redirect()->back()->with('failure', 'No hay lotes disponibles para este medicamento.');
+            }
+            $lote->cantidad -= 1;
+            $lote->save();
+            $tratamiento->dia_ultima = $time->format('Y-m-d');
+            $tratamiento->hora_ultima = $time->format('H:i:s');
+            $tratamiento->save();
+            return redirect()->back()->with('success', 'Se suministro el medicamento del lote: ' . $lote->numero_lote);
+        } else {
+            return redirect()->back()->with('failure', 'No se encontro el tratamiento');
+        }
     }
 
     public function registrarMedicina(Request $request)

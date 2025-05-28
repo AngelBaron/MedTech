@@ -24,5 +24,8 @@ class Archivo extends Model
         return $this->belongsTo(Receta::class);
     }
 
+    public function tratamiento(){
+        return $this->belongsTo(Tratamiento::class);
+    }
     
 }
