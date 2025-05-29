@@ -31,6 +31,34 @@ class MedicoController extends Controller
         return view('medico.CitaInicio', compact('cita', 'paciente'));
     }
 
+    public function conteoCitas(){
+        $medico = Medico::where('user_id',Auth::user()->id)->first();
+
+        $citas = Cita::where('medico_id',$medico->id)->count();
+
+        return $citas;
+    }
+
+    public function citasPendientes(){
+        $medico = Medico::where('user_id',Auth::user()->id)->first();
+
+        $citas = Cita::where('medico_id',$medico->id)->where('estado','pendiente')->count();
+
+        return $citas;
+    }
+    
+
+    public function citasFinalizadas(){
+        $medico = Medico::where('user_id',Auth::user()->id)->first();
+
+        $citas = Cita::where('medico_id',$medico->id)->where('estado','finalizada')->count();
+
+        return $citas;
+    }
+
+
+
+
     public function finalizarCita(Request $request, $paciente, $cita)
     {
         $request->validate([

@@ -18,5 +18,19 @@
             @include('layouts.dash_admin')
         @endif
 
+        @if (Auth::user()->role=='Medico')
+            @include('layouts.dash_medico')
+            
+        @endif
+
+        @if (Auth::user()->role=='Enfermera')
+            @include('layouts.dash_enfermera')
+            
+        @endif
+
+        @if (Auth::user()->role=='Paciente')
+            @include('layouts.dash_paciente')
+        @endif
+
     </div>
 </x-app-layout>

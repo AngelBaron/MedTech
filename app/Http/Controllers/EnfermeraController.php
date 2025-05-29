@@ -29,6 +29,19 @@ class EnfermeraController extends Controller
         return view('enfermera.medicinas', compact('medicinas'));
     }
 
+    public function countTratamientos(){
+        $tratamientos = Tratamiento::all()->count();
+
+        return $tratamientos;
+    }
+
+
+    public function countMedicinas(){
+        $medicinas = Medicamento::all()->count();
+
+        return $medicinas;
+    }
+
 
     public function validarReceta($id)
     {

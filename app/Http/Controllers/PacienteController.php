@@ -33,6 +33,20 @@ class PacienteController extends Controller
         return view('paciente.agendarCita', compact('medicos', 'especialidades'));
     }
 
+    public function countCitasTotales(){
+        $paciente = Paciente::where('user_id',Auth::user()->id)->first();
+        $citas = Cita::where('paciente_id',$paciente->id)->count();
+
+        return $citas;
+    }
+
+    public function countCitasPendientes(){
+        $paciente = Paciente::where('user_id',Auth::user()->id)->first();
+        $citasPendientes = Cita::where('paciente_id',$paciente->id)->where('estado','pendiente')->count();
+
+        return $citasPendientes;
+    }
+
     public function porDias($id)
     {
         $dias = Medico_dia::with('dia')->where('medico_id', $id)->get();
