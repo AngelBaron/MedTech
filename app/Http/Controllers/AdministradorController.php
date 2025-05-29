@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\CitasExport;
 use App\Mail\NotificacionEnfermera;
 use App\Mail\NotificacionEnfermera_Admin;
 use App\Mail\NotificacionMedico;
 use App\Mail\NotificacionMedico_Admin;
+use App\Models\Cita;
 use App\Models\Dia;
 use App\Models\Enfermera;
 use App\Models\Especialidad;
@@ -13,10 +15,12 @@ use App\Models\Medico;
 use App\Models\Medico_dia;
 use App\Models\Medico_especialidad;
 use App\Models\Medico_horario;
+use App\Models\Paciente;
 use App\Models\User;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
+use Maatwebsite\Excel\Facades\Excel;
 
 class AdministradorController extends Controller
 {
@@ -25,7 +29,30 @@ class AdministradorController extends Controller
         $especialidades = Especialidad::all();
         return view('administrador.registrarMedico', compact('especialidades'));
     }
+    
+    public function reportesShow(){
+        return view('administrador.reportes');
+    }
 
+    public function conteoMedicos(){
+        return Medico::count();
+    }
+
+    public function conteoEnfermeras(){
+        return Enfermera::count();
+    }
+
+    public function conteoPacientes(){
+        return Paciente::count();
+    }
+
+    public function conteoCitas(){
+        return Cita::count();
+    }
+
+    public function export(){
+        return Excel::download(new CitasExport,'reporte_citas.xlsx');
+    }
     public function registrarEnfermera()
     {
         return view('administrador.registrarEnfermera');

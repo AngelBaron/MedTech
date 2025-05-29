@@ -6,6 +6,7 @@ use App\Http\Controllers\MedicoController;
 use App\Http\Controllers\PacienteController;
 use App\Http\Controllers\ProfileController;
 use App\Models\Enfermera;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -13,6 +14,16 @@ Route::get('/', function () {
 });
 
 Route::get('/dashboard', function () {
+    if (Auth::user()->role=='Administrador') {
+        $admin = new AdministradorController;
+
+        $medicos = $admin->conteoMedicos();
+        $enfermeras = $admin->conteoEnfermeras();
+        $pacientes = $admin->conteoPacientes();
+
+        return view('dashboard',compact('medicos','enfermeras','pacientes'));
+    }
+
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
@@ -33,6 +44,8 @@ Route::middleware('auth','role:Administrador')->group(function () {
     Route::post('/registrarEspecialidad', [AdministradorController::class,'crearEspecialidad'])->name('crearEspecialidad');
     Route::delete('/eliminarEspecialidad/{id}', [AdministradorController::class,'destroyEspecialidad'])->name('destroyEspecialidad');
     Route::post('/editarEspecialidad', [AdministradorController::class,'actualizarEspecialidad'])->name('editarEspecialidad');
+    Route::get('/reportes',[AdministradorController::class,'reportesShow'])->name('reportes');
+    Route::get('/exportar-citas',[AdministradorController::class,'export'])->name('exportar');
 });
 
 

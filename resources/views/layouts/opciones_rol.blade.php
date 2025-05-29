@@ -22,6 +22,12 @@
             {{ __('Registrar Especialidad') }}
         </x-nav-link>
     </div>
+
+    <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+        <x-nav-link :href="route('reportes')" :active="request()->routeIs('reportes')">
+            {{ __('Reportes') }}
+        </x-nav-link>
+    </div>
 @endif
 
 @if (Auth::user()->role == 'Paciente')
