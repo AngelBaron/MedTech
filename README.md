@@ -50,12 +50,10 @@ Y accede a: [http://localhost:8000](http://localhost:8000)
 Este proyecto utiliza variables de entorno. **El archivo \`.env\` no se debe compartir ni subir a GitHub.**  
 Solo se incluye `.env.example` para que otros puedan crear su propia versión local.
 
-## 👥 Autores
+## 👥 Autor
 
 - Angel Barón García  
-- Yorne Alejandrina Santos Bobadilla  
-- Selene Nicole Vázquez Castrejón  
-- Luis N
+
 
 ---
 
